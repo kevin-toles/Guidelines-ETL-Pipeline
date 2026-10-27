@@ -1,0 +1,735 @@
+{
+ "_provenance": "htc V013SeedCRECodeChunks.up over the recorded mcp-gateway exporter fixture (cre_seed_test_support) into qdrant-client :memory:, 2026-10-18; authn.py units + module + src/security component; vector dropped, content kept",
+ "points": [
+  {
+   "id": "1e48e2bb-d8ae-5731-a609-3a4a000450ba",
+   "payload": {
+    "granularity": "code_unit",
+    "chunk_id": "mcp-gateway:src/security/authn.py:anonymous:96",
+    "unit_kind": "method",
+    "qualified_name": "AuthenticatedUser.anonymous",
+    "file_path": "src/security/authn.py",
+    "start_line": 96,
+    "end_line": 105,
+    "language": "python",
+    "repo_id": "mcp-gateway",
+    "module_id": "src/security/authn.py",
+    "component_id": "src/security",
+    "content": "def anonymous(cls) -> AuthenticatedUser:\n        \"\"\"Create a sentinel user for dev-mode (AUTH_ENABLED=false).\"\"\"\n        return cls(\n            sub=\"anonymous\",\n            tier=\"anonymous\",\n            issuer=\"\",\n            audience=\"\",\n            exp=0,\n            raw_claims={},\n        )",
+    "domain": "security-privacy",
+    "subdomain": "identity-authentication",
+    "knowledge_function": "implementation-ref-spec",
+    "primary_confidence": 0.7,
+    "domain_scores": {
+     "security-privacy": 0.7
+    },
+    "subdomain_scores": {
+     "identity-authentication": 0.6
+    },
+    "kf_scores": {
+     "implementation-ref-spec": 0.7
+    },
+    "secondary_tags": [],
+    "cross_domain_signals": [],
+    "ambiguity_index": 0.1,
+    "classification_status": "classified",
+    "taxonomy_version": "2.0.0",
+    "is_divergent_from_parent": false,
+    "statement_signals": [],
+    "embedding_model": "nomic-ai/nomic-embed-text-v2-moe",
+    "embedding_dim": 768
+   }
+  },
+  {
+   "id": "2aeabefc-3b10-505c-a1b9-b439bae4a42f",
+   "payload": {
+    "granularity": "code_unit",
+    "chunk_id": "mcp-gateway:src/security/authn.py:reset:67",
+    "unit_kind": "method",
+    "qualified_name": "AuthMetrics.reset",
+    "file_path": "src/security/authn.py",
+    "start_line": 67,
+    "end_line": 72,
+    "language": "python",
+    "repo_id": "mcp-gateway",
+    "module_id": "src/security/authn.py",
+    "component_id": "src/security",
+    "content": "def reset(self) -> None:\n        \"\"\"Reset all counters (useful for testing).\"\"\"\n        self.tokens_validated = 0\n        self.tokens_rejected = 0\n        self.jwks_fetches = 0\n        self.jwks_cache_hits = 0",
+    "domain": "security-privacy",
+    "subdomain": "identity-authentication",
+    "knowledge_function": "implementation-ref-spec",
+    "primary_confidence": 0.7,
+    "domain_scores": {
+     "security-privacy": 0.7
+    },
+    "subdomain_scores": {
+     "identity-authentication": 0.6
+    },
+    "kf_scores": {
+     "implementation-ref-spec": 0.7
+    },
+    "secondary_tags": [],
+    "cross_domain_signals": [],
+    "ambiguity_index": 0.1,
+    "classification_status": "classified",
+    "taxonomy_version": "2.0.0",
+    "is_divergent_from_parent": false,
+    "statement_signals": [],
+    "embedding_model": "nomic-ai/nomic-embed-text-v2-moe",
+    "embedding_dim": 768
+   }
+  },
+  {
+   "id": "3112c720-7a86-58ea-9810-66725b610964",
+   "payload": {
+    "granularity": "code_unit",
+    "chunk_id": "mcp-gateway:src/security/authn.py:_fetch_jwks:115",
+    "unit_kind": "function",
+    "qualified_name": "_fetch_jwks",
+    "file_path": "src/security/authn.py",
+    "start_line": 115,
+    "end_line": 124,
+    "language": "python",
+    "repo_id": "mcp-gateway",
+    "module_id": "src/security/authn.py",
+    "component_id": "src/security",
+    "content": "async def _fetch_jwks(jwks_url: str) -> dict[str, Any]:\n    \"\"\"Fetch the JWKS document from *jwks_url* via HTTP GET.\n\n    This is the low-level fetch; caching is handled by ``_get_signing_keys``.\n    Mocked in tests to avoid real HTTP calls.\n    \"\"\"\n    async with httpx.AsyncClient() as client:\n        resp = await client.get(jwks_url, timeout=10.0)\n        resp.raise_for_status()\n        return resp.json()",
+    "domain": "security-privacy",
+    "subdomain": "identity-authentication",
+    "knowledge_function": "implementation-ref-spec",
+    "primary_confidence": 0.7,
+    "domain_scores": {
+     "security-privacy": 0.7
+    },
+    "subdomain_scores": {
+     "identity-authentication": 0.6
+    },
+    "kf_scores": {
+     "implementation-ref-spec": 0.7
+    },
+    "secondary_tags": [],
+    "cross_domain_signals": [],
+    "ambiguity_index": 0.1,
+    "classification_status": "classified",
+    "taxonomy_version": "2.0.0",
+    "is_divergent_from_parent": false,
+    "statement_signals": [],
+    "embedding_model": "nomic-ai/nomic-embed-text-v2-moe",
+    "embedding_dim": 768
+   }
+  },
+  {
+   "id": "34fb5e9e-25ec-512d-ac4d-1284c8325d09",
+   "payload": {
+    "granularity": "code_unit",
+    "chunk_id": "mcp-gateway:src/security/authn.py:AuthMetrics:47",
+    "unit_kind": "class",
+    "qualified_name": "AuthMetrics",
+    "file_path": "src/security/authn.py",
+    "start_line": 47,
+    "end_line": 72,
+    "language": "python",
+    "repo_id": "mcp-gateway",
+    "module_id": "src/security/authn.py",
+    "component_id": "src/security",
+    "content": "class AuthMetrics:\n    \"\"\"Simple counters for auth events \u2014 extensible to Prometheus later.\"\"\"\n\n    tokens_validated: int = 0\n    tokens_rejected: int = 0\n    jwks_fetches: int = 0\n    jwks_cache_hits: int = 0\n\n    def record_validation(self) -> None:\n        self.tokens_validated += 1\n\n    def record_rejection(self) -> None:\n        self.tokens_rejected += 1\n\n    def record_jwks_fetch(self) -> None:\n        self.jwks_fetches += 1\n\n    def record_jwks_cache_hit(self) -> None:\n        self.jwks_cache_hits += 1\n\n    def reset(self) -> None:\n        \"\"\"Reset all counters (useful for testing).\"\"\"\n        self.tokens_validated = 0\n        self.tokens_rejected = 0\n        self.jwks_fetches = 0\n        self.jwks_cache_hits = 0",
+    "domain": "security-privacy",
+    "subdomain": "identity-authentication",
+    "knowledge_function": "implementation-ref-spec",
+    "primary_confidence": 0.7,
+    "domain_scores": {
+     "security-privacy": 0.7
+    },
+    "subdomain_scores": {
+     "identity-authentication": 0.6
+    },
+    "kf_scores": {
+     "implementation-ref-spec": 0.7
+    },
+    "secondary_tags": [],
+    "cross_domain_signals": [],
+    "ambiguity_index": 0.1,
+    "classification_status": "classified",
+    "taxonomy_version": "2.0.0",
+    "is_divergent_from_parent": false,
+    "statement_signals": [],
+    "embedding_model": "nomic-ai/nomic-embed-text-v2-moe",
+    "embedding_dim": 768
+   }
+  },
+  {
+   "id": "437333af-1e7b-5b8a-b3b1-1b3a59bb3a99",
+   "payload": {
+    "granularity": "code_unit",
+    "chunk_id": "mcp-gateway:src/security/authn.py:record_rejection:58",
+    "unit_kind": "method",
+    "qualified_name": "AuthMetrics.record_rejection",
+    "file_path": "src/security/authn.py",
+    "start_line": 58,
+    "end_line": 59,
+    "language": "python",
+    "repo_id": "mcp-gateway",
+    "module_id": "src/security/authn.py",
+    "component_id": "src/security",
+    "content": "def record_rejection(self) -> None:\n        self.tokens_rejected += 1",
+    "domain": "security-privacy",
+    "subdomain": "identity-authentication",
+    "knowledge_function": "implementation-ref-spec",
+    "primary_confidence": 0.7,
+    "domain_scores": {
+     "security-privacy": 0.7
+    },
+    "subdomain_scores": {
+     "identity-authentication": 0.6
+    },
+    "kf_scores": {
+     "implementation-ref-spec": 0.7
+    },
+    "secondary_tags": [],
+    "cross_domain_signals": [],
+    "ambiguity_index": 0.1,
+    "classification_status": "classified",
+    "taxonomy_version": "2.0.0",
+    "is_divergent_from_parent": false,
+    "statement_signals": [],
+    "embedding_model": "nomic-ai/nomic-embed-text-v2-moe",
+    "embedding_dim": 768
+   }
+  },
+  {
+   "id": "54b85109-462b-5bf8-93fb-4a70c6bb31d2",
+   "payload": {
+    "granularity": "code_unit",
+    "chunk_id": "mcp-gateway:src/security/authn.py:invalidate_jwks_cache:148",
+    "unit_kind": "function",
+    "qualified_name": "invalidate_jwks_cache",
+    "file_path": "src/security/authn.py",
+    "start_line": 148,
+    "end_line": 150,
+    "language": "python",
+    "repo_id": "mcp-gateway",
+    "module_id": "src/security/authn.py",
+    "component_id": "src/security",
+    "content": "def invalidate_jwks_cache() -> None:\n    \"\"\"Force JWKS re-fetch on next request (e.g. after key rotation).\"\"\"\n    _jwks_cache.clear()",
+    "domain": "security-privacy",
+    "subdomain": "identity-authentication",
+    "knowledge_function": "implementation-ref-spec",
+    "primary_confidence": 0.7,
+    "domain_scores": {
+     "security-privacy": 0.7
+    },
+    "subdomain_scores": {
+     "identity-authentication": 0.6
+    },
+    "kf_scores": {
+     "implementation-ref-spec": 0.7
+    },
+    "secondary_tags": [],
+    "cross_domain_signals": [],
+    "ambiguity_index": 0.1,
+    "classification_status": "classified",
+    "taxonomy_version": "2.0.0",
+    "is_divergent_from_parent": false,
+    "statement_signals": [],
+    "embedding_model": "nomic-ai/nomic-embed-text-v2-moe",
+    "embedding_dim": 768
+   }
+  },
+  {
+   "id": "7eabe773-ac2e-529e-a62c-6293ad6f3f2e",
+   "payload": {
+    "granularity": "code_unit",
+    "chunk_id": "mcp-gateway:src/security/authn.py:__init__:226",
+    "unit_kind": "method",
+    "qualified_name": "OIDCAuthMiddleware.__init__",
+    "file_path": "src/security/authn.py",
+    "start_line": 226,
+    "end_line": 228,
+    "language": "python",
+    "repo_id": "mcp-gateway",
+    "module_id": "src/security/authn.py",
+    "component_id": "src/security",
+    "content": "def __init__(self, app: Any, settings: Settings) -> None:\n        self.app = app\n        self.settings = settings",
+    "domain": "security-privacy",
+    "subdomain": "identity-authentication",
+    "knowledge_function": "implementation-ref-spec",
+    "primary_confidence": 0.7,
+    "domain_scores": {
+     "security-privacy": 0.7
+    },
+    "subdomain_scores": {
+     "identity-authentication": 0.6
+    },
+    "kf_scores": {
+     "implementation-ref-spec": 0.7
+    },
+    "secondary_tags": [],
+    "cross_domain_signals": [],
+    "ambiguity_index": 0.1,
+    "classification_status": "classified",
+    "taxonomy_version": "2.0.0",
+    "is_divergent_from_parent": false,
+    "statement_signals": [],
+    "embedding_model": "nomic-ai/nomic-embed-text-v2-moe",
+    "embedding_dim": 768
+   }
+  },
+  {
+   "id": "7ebb8328-b386-576d-aa3f-a20dfde02c49",
+   "payload": {
+    "granularity": "code_unit",
+    "chunk_id": "mcp-gateway:src/security/authn.py:AuthenticatedUser:82",
+    "unit_kind": "class",
+    "qualified_name": "AuthenticatedUser",
+    "file_path": "src/security/authn.py",
+    "start_line": 82,
+    "end_line": 105,
+    "language": "python",
+    "repo_id": "mcp-gateway",
+    "module_id": "src/security/authn.py",
+    "component_id": "src/security",
+    "content": "class AuthenticatedUser:\n    \"\"\"Validated identity extracted from a JWT.\n\n    Stored in ``request.state.auth`` after successful middleware validation.\n    \"\"\"\n\n    sub: str\n    tier: str\n    issuer: str\n    audience: str\n    exp: int\n    raw_claims: dict = field(default_factory=dict)\n\n    @classmethod\n    def anonymous(cls) -> AuthenticatedUser:\n        \"\"\"Create a sentinel user for dev-mode (AUTH_ENABLED=false).\"\"\"\n        return cls(\n            sub=\"anonymous\",\n            tier=\"anonymous\",\n            issuer=\"\",\n            audience=\"\",\n            exp=0,\n            raw_claims={},\n        )",
+    "domain": "security-privacy",
+    "subdomain": "identity-authentication",
+    "knowledge_function": "implementation-ref-spec",
+    "primary_confidence": 0.7,
+    "domain_scores": {
+     "security-privacy": 0.7
+    },
+    "subdomain_scores": {
+     "identity-authentication": 0.6
+    },
+    "kf_scores": {
+     "implementation-ref-spec": 0.7
+    },
+    "secondary_tags": [],
+    "cross_domain_signals": [],
+    "ambiguity_index": 0.1,
+    "classification_status": "classified",
+    "taxonomy_version": "2.0.0",
+    "is_divergent_from_parent": false,
+    "statement_signals": [],
+    "embedding_model": "nomic-ai/nomic-embed-text-v2-moe",
+    "embedding_dim": 768
+   }
+  },
+  {
+   "id": "9bde3aef-024c-527f-b1f6-4b51a5d1cd7a",
+   "payload": {
+    "granularity": "code_unit",
+    "chunk_id": "mcp-gateway:src/security/authn.py:record_jwks_cache_hit:64",
+    "unit_kind": "method",
+    "qualified_name": "AuthMetrics.record_jwks_cache_hit",
+    "file_path": "src/security/authn.py",
+    "start_line": 64,
+    "end_line": 65,
+    "language": "python",
+    "repo_id": "mcp-gateway",
+    "module_id": "src/security/authn.py",
+    "component_id": "src/security",
+    "content": "def record_jwks_cache_hit(self) -> None:\n        self.jwks_cache_hits += 1",
+    "domain": "security-privacy",
+    "subdomain": "identity-authentication",
+    "knowledge_function": "implementation-ref-spec",
+    "primary_confidence": 0.7,
+    "domain_scores": {
+     "security-privacy": 0.7
+    },
+    "subdomain_scores": {
+     "identity-authentication": 0.6
+    },
+    "kf_scores": {
+     "implementation-ref-spec": 0.7
+    },
+    "secondary_tags": [],
+    "cross_domain_signals": [],
+    "ambiguity_index": 0.1,
+    "classification_status": "classified",
+    "taxonomy_version": "2.0.0",
+    "is_divergent_from_parent": false,
+    "statement_signals": [],
+    "embedding_model": "nomic-ai/nomic-embed-text-v2-moe",
+    "embedding_dim": 768
+   }
+  },
+  {
+   "id": "9dd2e0c9-392c-5e34-a4c6-4a38b9743aaf",
+   "payload": {
+    "granularity": "code_unit",
+    "chunk_id": "mcp-gateway:src/security/authn.py:record_validation:55",
+    "unit_kind": "method",
+    "qualified_name": "AuthMetrics.record_validation",
+    "file_path": "src/security/authn.py",
+    "start_line": 55,
+    "end_line": 56,
+    "language": "python",
+    "repo_id": "mcp-gateway",
+    "module_id": "src/security/authn.py",
+    "component_id": "src/security",
+    "content": "def record_validation(self) -> None:\n        self.tokens_validated += 1",
+    "domain": "security-privacy",
+    "subdomain": "identity-authentication",
+    "knowledge_function": "implementation-ref-spec",
+    "primary_confidence": 0.7,
+    "domain_scores": {
+     "security-privacy": 0.7
+    },
+    "subdomain_scores": {
+     "identity-authentication": 0.6
+    },
+    "kf_scores": {
+     "implementation-ref-spec": 0.7
+    },
+    "secondary_tags": [],
+    "cross_domain_signals": [],
+    "ambiguity_index": 0.1,
+    "classification_status": "classified",
+    "taxonomy_version": "2.0.0",
+    "is_divergent_from_parent": false,
+    "statement_signals": [],
+    "embedding_model": "nomic-ai/nomic-embed-text-v2-moe",
+    "embedding_dim": 768
+   }
+  },
+  {
+   "id": "a9fb3222-3e05-5bcb-83e8-d75cbe4bd59c",
+   "payload": {
+    "granularity": "code_module",
+    "repo_id": "mcp-gateway",
+    "module_id": "src/security/authn.py",
+    "component_id": "src/security",
+    "domain": "security-privacy",
+    "subdomain": "identity-authentication",
+    "knowledge_function": "implementation-ref-spec",
+    "primary_confidence": 0.7,
+    "domain_scores": {
+     "security-privacy": 1.0
+    },
+    "subdomain_scores": {
+     "identity-authentication": 1.0
+    },
+    "kf_scores": {
+     "implementation-ref-spec": 1.0
+    },
+    "secondary_tags": [],
+    "cross_domain_signals": [],
+    "ambiguity_index": 0.1,
+    "classification_status": "classified",
+    "taxonomy_version": "2.0.0",
+    "is_divergent_from_parent": false,
+    "member_ids": [
+     "mcp-gateway:src/security/authn.py:AuthMetrics:47",
+     "mcp-gateway:src/security/authn.py:AuthenticatedUser:82",
+     "mcp-gateway:src/security/authn.py:OIDCAuthMiddleware:214",
+     "mcp-gateway:src/security/authn.py:__call__:230",
+     "mcp-gateway:src/security/authn.py:__init__:226",
+     "mcp-gateway:src/security/authn.py:_fetch_jwks:115",
+     "mcp-gateway:src/security/authn.py:_get_signing_keys:127",
+     "mcp-gateway:src/security/authn.py:_unauthorized:291",
+     "mcp-gateway:src/security/authn.py:anonymous:96",
+     "mcp-gateway:src/security/authn.py:invalidate_jwks_cache:148",
+     "mcp-gateway:src/security/authn.py:record_jwks_cache_hit:64",
+     "mcp-gateway:src/security/authn.py:record_jwks_fetch:61",
+     "mcp-gateway:src/security/authn.py:record_rejection:58",
+     "mcp-gateway:src/security/authn.py:record_validation:55",
+     "mcp-gateway:src/security/authn.py:reset:67",
+     "mcp-gateway:src/security/authn.py:validate_token:156"
+    ],
+    "embedding_model": "nomic-ai/nomic-embed-text-v2-moe",
+    "embedding_dim": 768
+   }
+  },
+  {
+   "id": "ce0bc2ba-8287-5d9f-9b5a-047321738b3c",
+   "payload": {
+    "granularity": "code_unit",
+    "chunk_id": "mcp-gateway:src/security/authn.py:validate_token:156",
+    "unit_kind": "function",
+    "qualified_name": "validate_token",
+    "file_path": "src/security/authn.py",
+    "start_line": 156,
+    "end_line": 208,
+    "language": "python",
+    "repo_id": "mcp-gateway",
+    "module_id": "src/security/authn.py",
+    "component_id": "src/security",
+    "content": "async def validate_token(\n    token: str,\n    *,\n    jwks_url: str,\n    issuer: str,\n    audience: str,\n) -> dict[str, Any]:\n    \"\"\"Decode and validate a JWT.\n\n    Returns the full claims dict on success.\n\n    Raises:\n        JWTError: On any validation failure (algorithm, signature,\n                  expiration, issuer, audience, missing claims).\n    \"\"\"\n    keys = await _get_signing_keys(jwks_url)\n\n    # Attempt decode with each key in the JWKS\n    payload: dict[str, Any] | None = None\n    last_error: Exception | None = None\n\n    for key in keys:\n        try:\n            payload = jose_jwt.decode(\n                token,\n                key,\n                algorithms=_ALLOWED_ALGORITHMS,\n                audience=audience,\n                issuer=issuer,\n                options={\n                    \"require_exp\": True,\n                    \"require_iss\": True,\n                    \"require_aud\": True,\n                    \"verify_exp\": True,\n                    \"verify_iss\": True,\n                    \"verify_aud\": True,\n                    \"verify_nbf\": True,\n                },\n            )\n            break\n        except JWTError as exc:\n            last_error = exc\n            continue\n\n    if payload is None:\n        raise last_error or JWTError(\"Token validation failed\")\n\n    # Enforce required claims beyond what jose validates (AC-3.5)\n    missing = _REQUIRED_CLAIMS - set(payload.keys())\n    if missing:\n        raise JWTError(f\"Missing required claims: {', '.join(sorted(missing))}\")\n\n    return payload",
+    "domain": "security-privacy",
+    "subdomain": "identity-authentication",
+    "knowledge_function": "implementation-ref-spec",
+    "primary_confidence": 0.7,
+    "domain_scores": {
+     "security-privacy": 0.7
+    },
+    "subdomain_scores": {
+     "identity-authentication": 0.6
+    },
+    "kf_scores": {
+     "implementation-ref-spec": 0.7
+    },
+    "secondary_tags": [],
+    "cross_domain_signals": [],
+    "ambiguity_index": 0.1,
+    "classification_status": "classified",
+    "taxonomy_version": "2.0.0",
+    "is_divergent_from_parent": false,
+    "statement_signals": [
+     {
+      "kind": "exception_handler",
+      "start_line": 178,
+      "end_line": 198,
+      "enclosing_unit": "validate_token"
+     },
+     {
+      "kind": "raise_site",
+      "start_line": 201,
+      "end_line": 201,
+      "enclosing_unit": "validate_token"
+     },
+     {
+      "kind": "raise_site",
+      "start_line": 206,
+      "end_line": 206,
+      "enclosing_unit": "validate_token"
+     }
+    ],
+    "embedding_model": "nomic-ai/nomic-embed-text-v2-moe",
+    "embedding_dim": 768
+   }
+  },
+  {
+   "id": "d049a9ea-4c2f-50d7-beb1-5794d09c8925",
+   "payload": {
+    "granularity": "code_unit",
+    "chunk_id": "mcp-gateway:src/security/authn.py:record_jwks_fetch:61",
+    "unit_kind": "method",
+    "qualified_name": "AuthMetrics.record_jwks_fetch",
+    "file_path": "src/security/authn.py",
+    "start_line": 61,
+    "end_line": 62,
+    "language": "python",
+    "repo_id": "mcp-gateway",
+    "module_id": "src/security/authn.py",
+    "component_id": "src/security",
+    "content": "def record_jwks_fetch(self) -> None:\n        self.jwks_fetches += 1",
+    "domain": "security-privacy",
+    "subdomain": "identity-authentication",
+    "knowledge_function": "implementation-ref-spec",
+    "primary_confidence": 0.7,
+    "domain_scores": {
+     "security-privacy": 0.7
+    },
+    "subdomain_scores": {
+     "identity-authentication": 0.6
+    },
+    "kf_scores": {
+     "implementation-ref-spec": 0.7
+    },
+    "secondary_tags": [],
+    "cross_domain_signals": [],
+    "ambiguity_index": 0.1,
+    "classification_status": "classified",
+    "taxonomy_version": "2.0.0",
+    "is_divergent_from_parent": false,
+    "statement_signals": [],
+    "embedding_model": "nomic-ai/nomic-embed-text-v2-moe",
+    "embedding_dim": 768
+   }
+  },
+  {
+   "id": "e013a360-86ac-566d-9c72-09c448f9c43a",
+   "payload": {
+    "granularity": "code_unit",
+    "chunk_id": "mcp-gateway:src/security/authn.py:_unauthorized:291",
+    "unit_kind": "function",
+    "qualified_name": "_unauthorized",
+    "file_path": "src/security/authn.py",
+    "start_line": 291,
+    "end_line": 296,
+    "language": "python",
+    "repo_id": "mcp-gateway",
+    "module_id": "src/security/authn.py",
+    "component_id": "src/security",
+    "content": "def _unauthorized(detail: str) -> JSONResponse:\n    \"\"\"Return a structured 401 with no internal details leaked.\"\"\"\n    return JSONResponse(\n        status_code=401,\n        content={\"error\": \"unauthorized\", \"detail\": detail},\n    )",
+    "domain": "security-privacy",
+    "subdomain": "identity-authentication",
+    "knowledge_function": "implementation-ref-spec",
+    "primary_confidence": 0.7,
+    "domain_scores": {
+     "security-privacy": 0.7
+    },
+    "subdomain_scores": {
+     "identity-authentication": 0.6
+    },
+    "kf_scores": {
+     "implementation-ref-spec": 0.7
+    },
+    "secondary_tags": [],
+    "cross_domain_signals": [],
+    "ambiguity_index": 0.1,
+    "classification_status": "classified",
+    "taxonomy_version": "2.0.0",
+    "is_divergent_from_parent": false,
+    "statement_signals": [],
+    "embedding_model": "nomic-ai/nomic-embed-text-v2-moe",
+    "embedding_dim": 768
+   }
+  },
+  {
+   "id": "e38edbd9-1496-5f2e-b3d7-76d59dbf440f",
+   "payload": {
+    "granularity": "code_component",
+    "repo_id": "mcp-gateway",
+    "component_id": "src/security",
+    "domain": "security-privacy",
+    "subdomain": "identity-authentication",
+    "knowledge_function": "implementation-ref-spec",
+    "primary_confidence": 0.7,
+    "domain_scores": {
+     "security-privacy": 1.0
+    },
+    "subdomain_scores": {
+     "identity-authentication": 1.0
+    },
+    "kf_scores": {
+     "implementation-ref-spec": 1.0
+    },
+    "secondary_tags": [],
+    "cross_domain_signals": [],
+    "ambiguity_index": 0.1,
+    "classification_status": "classified",
+    "taxonomy_version": "2.0.0",
+    "is_divergent_from_parent": false,
+    "member_ids": [
+     "src/security/audit.py",
+     "src/security/authn.py",
+     "src/security/credential_masking.py",
+     "src/security/cypher_validator.py",
+     "src/security/input_validators.py",
+     "src/security/output_sanitizer.py",
+     "src/security/path_validator.py",
+     "src/security/rate_limiter.py"
+    ],
+    "embedding_model": "nomic-ai/nomic-embed-text-v2-moe",
+    "embedding_dim": 768
+   }
+  },
+  {
+   "id": "e6c459c0-a83f-5dcc-acc0-b7bbf6f17daa",
+   "payload": {
+    "granularity": "code_unit",
+    "chunk_id": "mcp-gateway:src/security/authn.py:OIDCAuthMiddleware:214",
+    "unit_kind": "class",
+    "qualified_name": "OIDCAuthMiddleware",
+    "file_path": "src/security/authn.py",
+    "start_line": 214,
+    "end_line": 288,
+    "language": "python",
+    "repo_id": "mcp-gateway",
+    "module_id": "src/security/authn.py",
+    "component_id": "src/security",
+    "content": "class OIDCAuthMiddleware:\n    \"\"\"Starlette middleware that validates JWTs on every request.\n\n    - Excluded paths (e.g. ``/health``) bypass validation entirely.\n    - When ``AUTH_ENABLED=false``, all requests pass with an anonymous\n      ``AuthenticatedUser`` attached to ``request.state.auth``.\n    - Auth success/failure tracked via ``auth_metrics``.\n\n    Raw ASGI implementation avoids BaseHTTPMiddleware anyio buffer wrapping\n    that breaks SSE streams under Starlette 0.52+.\n    \"\"\"\n\n    def __init__(self, app: Any, settings: Settings) -> None:\n        self.app = app\n        self.settings = settings\n\n    async def __call__(self, scope: Any, receive: Any, send: Any) -> None:\n        if scope[\"type\"] != \"http\":\n            await self.app(scope, receive, send)\n            return\n\n        path = scope.get(\"path\", \"\")\n\n        # \u2500\u2500 Public paths and SSE \u2014 always allowed \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n        if path in _PUBLIC_PATHS or path.startswith(_SSE_PREFIX):\n            await self.app(scope, receive, send)\n            return\n\n        # Use Request for convenient header access and state mutation\n        request = Request(scope, receive)\n\n        # \u2500\u2500 Dev-mode bypass (AC-3.7) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n        if not self.settings.AUTH_ENABLED:\n            request.state.auth = AuthenticatedUser.anonymous()\n            await self.app(scope, receive, send)\n            return\n\n        # \u2500\u2500 Extract bearer token \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n        auth_header = request.headers.get(\"Authorization\", \"\")\n        if not auth_header.startswith(\"Bearer \"):\n            auth_metrics.record_rejection()\n            await _unauthorized(\"Missing or malformed Authorization header\")(scope, receive, send)\n            return\n\n        token = auth_header[len(\"Bearer \") :]\n        if not token or not token.strip():\n            auth_metrics.record_rejection()\n            await _unauthorized(\"Empty bearer token\")(scope, receive, send)\n            return\n\n        # \u2500\u2500 Validate \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n        try:\n            claims = await validate_token(\n                token,\n                jwks_url=self.settings.OIDC_JWKS_URL,\n                issuer=self.settings.OIDC_ISSUER,\n                audience=self.settings.OIDC_AUDIENCE,\n            )\n        except Exception:\n            auth_metrics.record_rejection()\n            await _unauthorized(\"Invalid or expired token\")(scope, receive, send)\n            return\n\n        # \u2500\u2500 Attach to request state (AC-3.8) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n        auth_metrics.record_validation()\n        request.state.auth = AuthenticatedUser(\n            sub=claims[\"sub\"],\n            tier=claims[\"tier\"],\n            issuer=claims[\"iss\"],\n            audience=claims[\"aud\"],\n            exp=claims[\"exp\"],\n            raw_claims=claims,\n        )\n\n        await self.app(scope, receive, send)",
+    "domain": "security-privacy",
+    "subdomain": "identity-authentication",
+    "knowledge_function": "implementation-ref-spec",
+    "primary_confidence": 0.7,
+    "domain_scores": {
+     "security-privacy": 0.7
+    },
+    "subdomain_scores": {
+     "identity-authentication": 0.6
+    },
+    "kf_scores": {
+     "implementation-ref-spec": 0.7
+    },
+    "secondary_tags": [],
+    "cross_domain_signals": [],
+    "ambiguity_index": 0.1,
+    "classification_status": "classified",
+    "taxonomy_version": "2.0.0",
+    "is_divergent_from_parent": false,
+    "statement_signals": [],
+    "embedding_model": "nomic-ai/nomic-embed-text-v2-moe",
+    "embedding_dim": 768
+   }
+  },
+  {
+   "id": "fc5ffd19-c53c-5344-bae0-4e6514d7a827",
+   "payload": {
+    "granularity": "code_unit",
+    "chunk_id": "mcp-gateway:src/security/authn.py:_get_signing_keys:127",
+    "unit_kind": "function",
+    "qualified_name": "_get_signing_keys",
+    "file_path": "src/security/authn.py",
+    "start_line": 127,
+    "end_line": 145,
+    "language": "python",
+    "repo_id": "mcp-gateway",
+    "module_id": "src/security/authn.py",
+    "component_id": "src/security",
+    "content": "async def _get_signing_keys(jwks_url: str) -> list[dict[str, Any]]:\n    \"\"\"Return JWKS ``keys`` list, using a TTL cache.\n\n    Re-fetches when the cache entry is older than ``_JWKS_CACHE_TTL``.\n    Tracks cache hits/misses via ``auth_metrics``.\n    \"\"\"\n    now = time.monotonic()\n\n    if jwks_url in _jwks_cache:\n        keys, fetched_at = _jwks_cache[jwks_url]\n        if now - fetched_at < _JWKS_CACHE_TTL:\n            auth_metrics.record_jwks_cache_hit()\n            return keys\n\n    jwks = await _fetch_jwks(jwks_url)\n    keys = jwks.get(\"keys\", [])\n    _jwks_cache[jwks_url] = (keys, now)\n    auth_metrics.record_jwks_fetch()\n    return keys",
+    "domain": "security-privacy",
+    "subdomain": "identity-authentication",
+    "knowledge_function": "implementation-ref-spec",
+    "primary_confidence": 0.7,
+    "domain_scores": {
+     "security-privacy": 0.7
+    },
+    "subdomain_scores": {
+     "identity-authentication": 0.6
+    },
+    "kf_scores": {
+     "implementation-ref-spec": 0.7
+    },
+    "secondary_tags": [],
+    "cross_domain_signals": [],
+    "ambiguity_index": 0.1,
+    "classification_status": "classified",
+    "taxonomy_version": "2.0.0",
+    "is_divergent_from_parent": false,
+    "statement_signals": [],
+    "embedding_model": "nomic-ai/nomic-embed-text-v2-moe",
+    "embedding_dim": 768
+   }
+  },
+  {
+   "id": "ff38268e-e19f-552d-8d92-3dc75a4e27ff",
+   "payload": {
+    "granularity": "code_unit",
+    "chunk_id": "mcp-gateway:src/security/authn.py:__call__:230",
+    "unit_kind": "method",
+    "qualified_name": "OIDCAuthMiddleware.__call__",
+    "file_path": "src/security/authn.py",
+    "start_line": 230,
+    "end_line": 288,
+    "language": "python",
+    "repo_id": "mcp-gateway",
+    "module_id": "src/security/authn.py",
+    "component_id": "src/security",
+    "content": "async def __call__(self, scope: Any, receive: Any, send: Any) -> None:\n        if scope[\"type\"] != \"http\":\n            await self.app(scope, receive, send)\n            return\n\n        path = scope.get(\"path\", \"\")\n\n        # \u2500\u2500 Public paths and SSE \u2014 always allowed \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n        if path in _PUBLIC_PATHS or path.startswith(_SSE_PREFIX):\n            await self.app(scope, receive, send)\n            return\n\n        # Use Request for convenient header access and state mutation\n        request = Request(scope, receive)\n\n        # \u2500\u2500 Dev-mode bypass (AC-3.7) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n        if not self.settings.AUTH_ENABLED:\n            request.state.auth = AuthenticatedUser.anonymous()\n            await self.app(scope, receive, send)\n            return\n\n        # \u2500\u2500 Extract bearer token \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n        auth_header = request.headers.get(\"Authorization\", \"\")\n        if not auth_header.startswith(\"Bearer \"):\n            auth_metrics.record_rejection()\n            await _unauthorized(\"Missing or malformed Authorization header\")(scope, receive, send)\n            return\n\n        token = auth_header[len(\"Bearer \") :]\n        if not token or not token.strip():\n            auth_metrics.record_rejection()\n            await _unauthorized(\"Empty bearer token\")(scope, receive, send)\n            return\n\n        # \u2500\u2500 Validate \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n        try:\n            claims = await validate_token(\n                token,\n                jwks_url=self.settings.OIDC_JWKS_URL,\n                issuer=self.settings.OIDC_ISSUER,\n                audience=self.settings.OIDC_AUDIENCE,\n            )\n        except Exception:\n            auth_metrics.record_rejection()\n            await _unauthorized(\"Invalid or expired token\")(scope, receive, send)\n            return\n\n        # \u2500\u2500 Attach to request state (AC-3.8) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n        auth_metrics.record_validation()\n        request.state.auth = AuthenticatedUser(\n            sub=claims[\"sub\"],\n            tier=claims[\"tier\"],\n            issuer=claims[\"iss\"],\n            audience=claims[\"aud\"],\n            exp=claims[\"exp\"],\n            raw_claims=claims,\n        )\n\n        await self.app(scope, receive, send)",
+    "domain": "security-privacy",
+    "subdomain": "identity-authentication",
+    "knowledge_function": "implementation-ref-spec",
+    "primary_confidence": 0.7,
+    "domain_scores": {
+     "security-privacy": 0.7
+    },
+    "subdomain_scores": {
+     "identity-authentication": 0.6
+    },
+    "kf_scores": {
+     "implementation-ref-spec": 0.7
+    },
+    "secondary_tags": [],
+    "cross_domain_signals": [],
+    "ambiguity_index": 0.1,
+    "classification_status": "classified",
+    "taxonomy_version": "2.0.0",
+    "is_divergent_from_parent": false,
+    "statement_signals": [],
+    "embedding_model": "nomic-ai/nomic-embed-text-v2-moe",
+    "embedding_dim": 768
+   }
+  }
+ ]
+}

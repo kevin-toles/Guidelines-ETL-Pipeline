@@ -1,0 +1,111 @@
+{
+ "_provenance": "htc V005_classification.seed_classification_points over test_V005_classification _profile()/_chapters() (real [CLEANED] SE raw page text) + the real enriched chapter 1 of '\"Why Should I Trust You?\"' (ETDI BEH-08.02 step 2 amended), 2026-10-19; vector copy dropped",
+ "points": [
+  {
+   "id": "a30460e3-177a-53cf-8e81-fe8d82ef5c18",
+   "payload": {
+    "title": "\"Why Should I Trust You?\" - Explaining the Predictions of Any Classifier",
+    "chapter_title": "Section 1",
+    "number": 1,
+    "keywords": [
+     "accept",
+     "publication"
+    ],
+    "concepts": [
+     "machine learning",
+     "training data",
+     "evaluation metric",
+     "feature engineering",
+     "application domain",
+     "data leakage",
+     "cross validation",
+     "deploying models",
+     "comprehensive evaluation",
+     "relationship instance",
+     "random forests",
+     "raw data",
+     "validation set",
+     "truth model",
+     "make informed",
+     "large datasets",
+     "model development",
+     "model evaluation",
+     "neural networks"
+    ],
+    "concept": "machine learning",
+    "summary": "",
+    "content": "Section 1.  Despite widespread adoption, machine learning models remain mostly black boxes. Understanding the reasons behind predictions is, however, quite important in assessing trust",
+    "granularity": "chapter",
+    "chapter_id": "why-trust-you:1",
+    "text_id": "why-trust-you",
+    "taxonomy_version": "2.0.0",
+    "primary_domain": "ai-ml",
+    "primary_subdomain": "",
+    "primary_kf": "",
+    "primary_confidence": 0.0,
+    "domain_scores": {},
+    "subdomain_scores": {},
+    "kf_scores": {},
+    "secondary_tags": [],
+    "cross_domain_signals": [],
+    "ambiguity_index": 0.0,
+    "classification_source": "htc_profile",
+    "classification_status": "classified",
+    "diverges_from_parent": false,
+    "embedding_model": "nomic-ai/nomic-embed-text-v2-moe",
+    "embedding_dim": 768
+   }
+  },
+  {
+   "id": "367603ea-8c4a-541d-bf81-cbdf7483021d",
+   "payload": {
+    "content": "Despite widespread adoption, machine learning models remain mostly black boxes. Understanding the reasons behind predictions is, however, quite important in assessing trust",
+    "granularity": "passage",
+    "span_id": "why-trust-you:1:0",
+    "parent_chapter_id": "why-trust-you:1",
+    "text_id": "why-trust-you",
+    "taxonomy_version": "",
+    "primary_domain": "",
+    "primary_subdomain": "",
+    "primary_kf": "",
+    "primary_confidence": 0.0,
+    "domain_scores": {},
+    "subdomain_scores": {},
+    "kf_scores": {},
+    "secondary_tags": [],
+    "cross_domain_signals": [],
+    "ambiguity_index": 0.0,
+    "classification_source": "htc_profile",
+    "diverges_from_parent": false,
+    "embedding_model": "nomic-ai/nomic-embed-text-v2-moe",
+    "embedding_dim": 768
+   }
+  },
+  {
+   "id": "96883fa5-ce7d-5c76-a060-1dc4aa442a12",
+   "payload": {
+    "content": "Despite widespread adoption, machine learning models remain ",
+    "granularity": "paragraph_group",
+    "pg_id": "why-trust-you:1:0:0",
+    "parent_passage_id": "why-trust-you:1:0",
+    "parent_chapter_id": "",
+    "text_id": "why-trust-you",
+    "taxonomy_version": "",
+    "primary_domain": "",
+    "primary_subdomain": "",
+    "primary_kf": "",
+    "primary_confidence": 0.0,
+    "domain_scores": {},
+    "subdomain_scores": {},
+    "kf_scores": {},
+    "secondary_tags": [],
+    "cross_domain_signals": [],
+    "ambiguity_index": 0.0,
+    "classification_source": "htc_profile",
+    "diverges_from_parent": false,
+    "embedding_model": "nomic-ai/nomic-embed-text-v2-moe",
+    "embedding_dim": 768
+   }
+  }
+ ]
+}

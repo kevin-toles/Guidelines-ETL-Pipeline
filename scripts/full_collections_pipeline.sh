@@ -45,20 +45,17 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
 
+source "$SCRIPT_DIR/_shared_helpers.sh"
+
 # ── Project Paths ───────────────────────────────────────────────────────────
 USB="/Volumes/USB321FD/Guidelines ETL Data"
 COLLECTIONS_INPUT="/Users/kevintoles/POC/ai-platform-data/collections"
 MINING_OUT="$USB/output/collections_mining"
 PIPELINE_DIR="$USB/scripts/mining_pipeline"
 PYTHON="python3"
+RUN_STEP_INPUT=""
 
-# ── Colors ──────────────────────────────────────────────────────────────────
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-CYAN='\033[0;36m'
-NC='\033[0m'
+# Colors inherited from _shared_helpers.sh
 
 # ── Options ─────────────────────────────────────────────────────────────────
 DRY_RUN=false
@@ -97,136 +94,8 @@ mkdir -p "$LOGDIR"
 LOGFILE="$LOGDIR/pipeline.log"
 exec > >(tee -a "$LOGFILE") 2>&1
 
-# ═════════════════════════════════════════════════════════════════════════════
-# HELPER FUNCTIONS
-# ═════════════════════════════════════════════════════════════════════════════
-
-phase_header() {
-    local label="$1"; shift
-    echo ""
-    echo -e "${BLUE}══════════════════════════════════════════════════════════════════${NC}"
-    echo -e "${BLUE}  $label${NC}"
-    echo -e "${BLUE}  Started: $(date)${NC}"
-    echo -e "${BLUE}══════════════════════════════════════════════════════════════════${NC}"
-}
-
-phase_done() {
-    local label="$1"; shift
-    local exit_code="$1"; shift
-    if [[ "$exit_code" -eq 0 ]]; then
-        echo -e "  ${GREEN}✓ $label complete ($(date))${NC}"
-    else
-        echo -e "  ${RED}✗ $label FAILED (exit $exit_code) — ($(date))${NC}"
-    fi
-}
-
-files_exist() {
-    for f in "$@"; do
-        if [[ ! -f "$f" ]]; then
-            return 1
-        fi
-    done
-    return 0
-}
-
-require_inputs() {
-    local step="$1"; shift
-    local missing=false
-    for f in "$@"; do
-        if [[ ! -f "$f" ]]; then
-            echo -e "  ${RED}✗ Missing input: $f${NC}"
-            missing=true
-        fi
-    done
-    if [[ "$missing" == "true" ]]; then
-        echo -e "  ${RED}✗ $step: required inputs missing — aborting.${NC}"
-        return 1
-    fi
-    return 0
-}
-
-run_step() {
-    local step="$1"; shift
-    local label="$1"; shift
-    local script_name="$1"; shift
-    local -a output_files=("${@}")
-
-    # ── Checkpoint ──
-    if [[ "$RESUME" == "true" ]]; then
-        local all_exist=true
-        for f in "${output_files[@]}"; do
-            if [[ ! -f "$f" ]]; then
-                all_exist=false
-                break
-            fi
-        done
-        if [[ "$all_exist" == "true" ]]; then
-            echo -e "  ${GREEN}✓ $label — checkpoint found, skipping${NC}"
-            return 0
-        fi
-    fi
-
-    local script_path="$PIPELINE_DIR/$script_name"
-
-    # ── Dry-run ──
-    if [[ "$DRY_RUN" == "true" ]]; then
-        echo -e "  ${CYAN}⏳ $label — would run:${NC}"
-        echo "       python3 $script_name $SE_DATA $MINING_OUT"
-        echo -e "  ${CYAN}     Outputs:${NC}"
-        for f in "${output_files[@]}"; do
-            local rel="${f#$MINING_OUT/}"
-            if [[ -f "$f" ]]; then
-                local size
-                size=$(du -h "$f" | cut -f1)
-                echo -e "       ${GREEN}✓ $rel ($size, exists)${NC}"
-            else
-                echo -e "       ${YELLOW}⏳ $rel (will be created)${NC}"
-            fi
-        done
-        return 0
-    fi
-
-    # ── Force cleanup ──
-    if [[ "$FORCE" == "true" ]]; then
-        for f in "${output_files[@]}"; do
-            if [[ -f "$f" ]]; then
-                rm -f "$f"
-                echo -e "  ${YELLOW}⚠ Removed (--force): ${f#$MINING_OUT/}${NC}"
-            fi
-        done
-    fi
-
-    # ── Run ──
-    echo -e "  ${CYAN}▶ Running $label...${NC}"
-    mkdir -p "$MINING_OUT"
-    cd "$USB"
-
-    # Special handling for the converter step (takes different args)
-    if [[ "$script_name" == "convert_collections_to_corpus.py" ]]; then
-        /usr/bin/time $PYTHON "$script_path" "$COLLECTIONS_INPUT" "$MINING_OUT" 2>&1
-    else
-        /usr/bin/time $PYTHON "$script_path" "" "$MINING_OUT" 2>&1
-    fi
-    local exit_code=$?
-
-    if [[ $exit_code -ne 0 ]]; then
-        echo -e "  ${RED}✗ $label failed (exit $exit_code)${NC}"
-        echo -e "  ${RED}  Check logs: $LOGFILE${NC}"
-        return $exit_code
-    fi
-
-    for f in "${output_files[@]}"; do
-        if [[ ! -f "$f" ]]; then
-            echo -e "  ${RED}✗ $label completed but output missing: ${f#$MINING_OUT/}${NC}"
-            return 1
-        fi
-        local size
-        size=$(du -h "$f" | cut -f1)
-        echo -e "  ${GREEN}✓ ${f#$MINING_OUT/} ($size)${NC}"
-    done
-
-    return 0
-}
+# Helper functions (phase_header, phase_done, files_exist, require_inputs, run_step)
+# are sourced from _shared_helpers.sh above.
 
 # ═════════════════════════════════════════════════════════════════════════════
 # PHASE 0: PRE-FLIGHT CHECKS
@@ -245,6 +114,9 @@ echo ""
 phase_header "Phase 0: Pre-flight Checks"
 
 ALL_CHECKS_PASSED=true
+
+# fastembed dependency check (must pass before A1; ETDI BEH-02.03)
+require_python_module fastembed || ALL_CHECKS_PASSED=false
 
 # Python
 if command -v $PYTHON &>/dev/null; then
@@ -503,6 +375,22 @@ require_inputs "B5" \
     "$MINING_OUT/B5/viability_report.json" \
 || { OVERALL_EXIT=$?; }
 phase_done "B5" $OVERALL_EXIT
+
+# ── STEP 12: C5 — Graph Enrichment ────────────────────────────────────────
+phase_header "C5: Transformation — Graph Enrichment"
+run_step "C5" "Graph Enrichment" "transform_graph_enrichment.py" \
+    "$MINING_OUT/C5/enrichment_graph.json" \
+|| { OVERALL_EXIT=$?; }
+phase_done "C5" $OVERALL_EXIT
+
+# ── STEP 13: C5b — Graph Traversal ───────────────────────────────────────
+phase_header "C5b: Graph Traversal — Cross-Subdomain Scenarios"
+# ETDI BEH-02.03 step 3: C5b failure is non-fatal (graceful degradation) — logged, pipeline continues.
+C5B_EXIT=0
+run_step "C5b" "Graph Traversal" "c5b_graph_traversal.py" \
+    "$MINING_OUT/C5b/traversal_scenarios.json" \
+|| { C5B_EXIT=$?; echo -e "  ${YELLOW}⚠ C5b failed (exit $C5B_EXIT) — continuing without traversal scenarios${NC}"; }
+phase_done "C5b" $C5B_EXIT
 
 # ═════════════════════════════════════════════════════════════════════════════
 # SUMMARY

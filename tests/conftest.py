@@ -1,0 +1,1 @@
+"""GETL test configuration."""
